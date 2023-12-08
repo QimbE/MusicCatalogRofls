@@ -1,0 +1,11 @@
+<h1>Register</h1>
+<form [formGroup]="registerForm">
+  <input type="text" placeholder="Username" formControlName="username">
+  <br>
+  <input type="email" placeholder="Email" formControlName="email">
+  <br>
+  <input type="password" placeholder="Password" formControlName="password">
+  <br>
+  <button type="submit" (click)="register()">Sing Up</button>
+</form>
+<button (click)="redirectToLogin()">...Or Log In</button>

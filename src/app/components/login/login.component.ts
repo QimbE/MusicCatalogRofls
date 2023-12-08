@@ -27,10 +27,13 @@ export class LoginComponent implements OnInit{
 
     if (email && password){
       this.authService.login(email, password).subscribe((response: TokenResponse)=>{
-        localStorage.setItem("authToken", response.data);
         this.router.navigateByUrl("/");
       });
     }
+  }
+
+  public redirectToRegister(){
+    this.router.navigateByUrl("/auth/register")
   }
 
 }
