@@ -1,0 +1,8 @@
+<h1>Login</h1>
+<form [formGroup]="loginForm">
+  <input type="email" placeholder="Email" formControlName="email">
+  <br>
+  <input type="password" placeholder="Password" formControlName="password">
+  <br>
+  <button type="submit" (click)="login()">Log In</button>
+</form>

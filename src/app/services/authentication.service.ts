@@ -12,12 +12,18 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  public register(user: RegisterUser): Observable<TokenResponse>{
-    return this.http.post<TokenResponse>('http://localhost:8088/Authentication/register', user);
+  public register(username: string, email: string, password: string): Observable<TokenResponse>{
+    return this.http.post<TokenResponse>('http://localhost:8088/Authentication/register',
+      {
+      "username": username, "email": email, "password": password
+    }
+    );
   }
 
-  public login(user: BaseUser): Observable<TokenResponse>{
-    return this.http.post<TokenResponse>('http://localhost:8088/Authentication/login', user);
+  public login(email: string, password: string): Observable<TokenResponse>{
+    return this.http.post<TokenResponse>('http://localhost:8088/Authentication/login', {
+      "email": email, "password": password
+    });
   }
 
   public logout(): void{
