@@ -1,1 +1,43 @@
-<p>admin works!</p>
+<table>
+  <thead>
+  <tr>
+    <th>
+      User Id
+    </th>
+    <th>
+      Username
+    </th>
+    <th>
+      Email
+    </th>
+    <th>
+      Role
+    </th>
+    <th>
+
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <th>
+      {{user.id}}
+    </th>
+    <th>
+      {{user.username}}
+    </th>
+    <th>
+      {{user.email}}
+    </th>
+    <th>
+      {{user.role | titlecase}}
+    </th>
+    <th>
+      <button (click)="navigateToUserForm(user.id, user.username, user.role)">Edit</button>
+    </th>
+  </tr>
+  </tbody>
+</table>
+<button *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
+<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>
+

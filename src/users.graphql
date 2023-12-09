@@ -1,0 +1,21 @@
+query Users($first: Int, $last: Int, $after:String, $before:String){
+  users(first: $first, last: $last, after: $after, before: $before){
+    totalCount
+    pageInfo{
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges{
+      cursor
+      node{
+        id
+        username
+        email
+        role
+      }
+    }
+
+  }
+}

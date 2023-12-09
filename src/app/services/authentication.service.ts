@@ -41,7 +41,7 @@ export class AuthenticationService {
       "username": username, "email": email, "password": password
     }
     ).pipe(map(res=>{
-      this.cookieService.set("authToken", res.data);
+      this.cookieService.set("authToken", res.data, { path: '/' });
       this.getMe().subscribe();
       return res;
     }));
@@ -54,7 +54,7 @@ export class AuthenticationService {
     return this.http.post<TokenResponse>('http://localhost:8088/Authentication/login', {
       "email": email, "password": password
     }).pipe(map(res=>{
-      this.cookieService.set("authToken", res.data);
+      this.cookieService.set("authToken", res.data, { path: '/' });
       this.getMe().subscribe();
       return res;
     }));
@@ -63,7 +63,6 @@ export class AuthenticationService {
   public logout(): void{
     this.cookieService.delete("authToken");
     this.cookieService.delete("user");
-    this.router.navigate(['/auth/login'])
   }
 
   public isTokenExist(): boolean{
@@ -72,7 +71,7 @@ export class AuthenticationService {
 
   public getMe():Observable<GetMeResponse>{
     return this.http.get<GetMeResponse>('http://localhost:8088/users').pipe(map( response =>{
-        this.cookieService.set("user", JSON.stringify(response.data));
+        this.cookieService.set("user", JSON.stringify(response.data), { path: '/' });
         this.userSubject.next(response.data);
         return response;
       })
