@@ -557,7 +557,7 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Endpoint', users?: { __typename?: 'UsersConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'UsersEdge', cursor: string, node: { __typename?: 'User', id: any, username: string, email: string, role: Role, favouriteSongs: Array<{ __typename?: 'Song', id: any }> } }> | null } | null };
+export type UsersQuery = { __typename?: 'Endpoint', users?: { __typename?: 'UsersConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'UsersEdge', cursor: string, node: { __typename?: 'User', id: any, username: string, email: string, role: Role } }> | null } | null };
 
 export const UsersDocument = gql`
     query Users($first: Int, $last: Int, $after: String, $before: String) {
@@ -576,9 +576,6 @@ export const UsersDocument = gql`
         username
         email
         role
-        favouriteSongs {
-          id
-        }
       }
     }
   }

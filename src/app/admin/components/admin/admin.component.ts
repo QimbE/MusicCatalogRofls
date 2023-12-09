@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {UsersGQL} from "../../../generated/graphql";
+import {UsersGQL} from "../../../../generated/graphql";
 import {Router} from "@angular/router";
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-admin',
@@ -15,12 +16,11 @@ export class AdminComponent {
   hasPreviousPage = false;
   count:number = 5;
 
-  constructor(private query: UsersGQL, private router: Router) {
+  constructor(private query: UsersGQL, private router: Router, private usersService: UsersService) {
   }
 
   public loadNext(){
-    this.query.watch({first: this.count, after: this.endCursor })
-      .valueChanges.subscribe(result => {
+    this.usersService.nextPage(this.count, this.endCursor).subscribe(result => {
       const { edges, pageInfo } = result.data.users!;
       this.users = new Array<any>(...edges!.map((edge: any) => edge.node));
       this.hasPreviousPage = pageInfo.hasPreviousPage;
@@ -30,15 +30,14 @@ export class AdminComponent {
     })
   }
   public loadPrev(){
-    this.query.watch({last: this.count, before: this.startCursor })
-      .valueChanges.subscribe(result => {
+    this.usersService.prevPage(this.count, this.startCursor).subscribe(result => {
       const { edges, pageInfo } = result.data.users!;
       this.users = new Array<any>(...edges!.map((edge: any) => edge.node));
       this.hasPreviousPage = pageInfo.hasPreviousPage;
       this.startCursor = pageInfo.startCursor!;
       this.hasNextPage = pageInfo.hasNextPage;
       this.endCursor = pageInfo.endCursor!;
-    })
+    });
   }
 
   navigateToUserForm(id:string,username: string, role: string) {

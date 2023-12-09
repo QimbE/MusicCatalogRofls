@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Role} from "../../models/userInfo";
+import {Role} from "../../../models/userInfo";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UsersService} from "../../services/users.service";
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-user-form',
