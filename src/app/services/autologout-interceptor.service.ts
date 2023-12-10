@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {HttpEvent, HttpHandler, HttpRequest} from "@angular/common/http";
 import {AuthenticationService} from "./authentication.service";
 
@@ -16,10 +16,11 @@ export class AutologoutInterceptor {
       if (this.statusCodes.includes(err.status) && this.authenticationService.isTokenExist()) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         this.authenticationService.logout();
+        window.location.reload();
       }
 
       const error = err.error.message || err.statusText;
       return throwError(() => error);
-    }))
+    }));
   }
 }

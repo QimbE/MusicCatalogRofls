@@ -1,0 +1,42 @@
+<table>
+  <thead>
+  <tr>
+    <th>
+      Name
+    </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let artist of artists">
+    <th>
+      {{artist.name | titlecase}}
+    </th>
+    <th>
+      <button (click)="navigateToArtistPage(artist.id)">To the page</button>
+    </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
+  </tr>
+  </tbody>
+</table>
+<button *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
+<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>

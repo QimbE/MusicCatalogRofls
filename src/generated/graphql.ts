@@ -549,6 +549,16 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type ListArtistsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ListArtistsQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ArtistsEdge', cursor: string, node: { __typename?: 'Artist', id: any, name: string } }> | null } | null };
+
 export type UsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -559,6 +569,37 @@ export type UsersQueryVariables = Exact<{
 
 export type UsersQuery = { __typename?: 'Endpoint', users?: { __typename?: 'UsersConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'UsersEdge', cursor: string, node: { __typename?: 'User', id: any, username: string, email: string, role: Role } }> | null } | null };
 
+export const ListArtistsDocument = gql`
+    query ListArtists($first: Int, $last: Int, $after: String, $before: String) {
+  artists(first: $first, last: $last, after: $after, before: $before) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListArtistsGQL extends Apollo.Query<ListArtistsQuery, ListArtistsQueryVariables> {
+    override document = ListArtistsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UsersDocument = gql`
     query Users($first: Int, $last: Int, $after: String, $before: String) {
   users(first: $first, last: $last, after: $after, before: $before) {

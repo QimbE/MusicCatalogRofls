@@ -13,5 +13,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [Role.Admin]}
   },
-  { path: '**', redirectTo: '/' }
+  {
+    path:'artists',
+    loadChildren: ()=> import('./artists/artists.module').then(m => m.ArtistsModule),
+    canActivate: [AuthGuard],
+    data: {roles: [Role.Admin, Role.DatabaseAdmin, Role.Default]}
+  },
+  { path: '**', redirectTo: '' }
 ];

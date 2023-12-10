@@ -61,8 +61,8 @@ export class AuthenticationService {
   }
 
   public logout(): void{
-    this.cookieService.delete("authToken");
-    this.cookieService.delete("user");
+    this.cookieService.delete("authToken", '/');
+    this.cookieService.delete("user", '/');
   }
 
   public isTokenExist(): boolean{

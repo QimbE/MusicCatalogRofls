@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UsersGQL} from "../../../../generated/graphql";
 import {Router} from "@angular/router";
 import {UsersService} from "../../../services/users.service";
@@ -8,7 +8,7 @@ import {UsersService} from "../../../services/users.service";
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit{
   users: any[] = [];
   startCursor: string | null = null;
   endCursor: string | null = null;
@@ -16,7 +16,11 @@ export class AdminComponent {
   hasPreviousPage = false;
   count:number = 5;
 
-  constructor(private query: UsersGQL, private router: Router, private usersService: UsersService) {
+  constructor(private router: Router, private usersService: UsersService) {
+  }
+
+  ngOnInit(): void {
+    this.loadNext();
   }
 
   public loadNext(){
