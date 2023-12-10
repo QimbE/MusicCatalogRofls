@@ -16,7 +16,6 @@ export class UserFormComponent implements OnInit{
   role: Role;
 
   userForm = new FormGroup({
-    id: new FormControl('', [Validators.required, Validators.maxLength(36), Validators.minLength(36)]),
     username: new FormControl('', [Validators.required, Validators.minLength(6)]),
     role: new FormControl('', [Validators.required])
   });
@@ -42,18 +41,16 @@ export class UserFormComponent implements OnInit{
     ).subscribe();
 
     this.userForm = new FormGroup({
-      id: new FormControl(this.id, [Validators.required, Validators.maxLength(36), Validators.minLength(36)]),
       username: new FormControl(this.username, [Validators.required, Validators.minLength(6)]),
       role: new FormControl(this.getRole, [Validators.required])
     })
   }
 
   public editUser(){
-    let id = this.userForm.get("id")?.value;
     let username = this.userForm.get("username")?.value;
     let role = this.userForm.get("role")?.value;
 
-    if (!(id && username && role)){
+    if (!(username && role)){
       return;
     }
 
@@ -63,7 +60,7 @@ export class UserFormComponent implements OnInit{
       return;
     }
 
-    this.usersService.editUser(id, username, roleId).subscribe(res => this.router.navigateByUrl("/admin/users"))
+    this.usersService.editUser(this.id, username, roleId).subscribe(res => this.router.navigateByUrl("/admin/users"))
   }
 }
 
