@@ -67,7 +67,7 @@ export class ArtistsComponent implements OnInit{
   }
 
   deleteArtist(id: string){
-
+      this.artistsService.deleteArtist(id).subscribe(x=> window.location.reload());
   }
 
 }

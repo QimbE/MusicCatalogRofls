@@ -13,6 +13,10 @@ export class ArtistsService {
 
   }
 
+  public deleteArtist(id: string){
+    return this.httpClient.delete<APIResponse>(`http://localhost:8088/Artists/${id}`);
+  }
+
   public createArtist(name: string, description: string){
       return this.httpClient.post<APIResponse>('http://localhost:8088/Artists', {name: name, description: description});
   }
