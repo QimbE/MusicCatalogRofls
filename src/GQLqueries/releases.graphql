@@ -1,0 +1,26 @@
+query ListReleases($first: Int, $last: Int, $after:String, $before:String){
+  releases(first: $first, last: $last, after: $after, before: $before){
+    totalCount
+    pageInfo{
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges{
+      cursor
+      node{
+        author {
+          id
+          name
+        }
+        id
+        name
+        releaseDate
+        type
+        linkToCover
+      }
+    }
+
+  }
+}

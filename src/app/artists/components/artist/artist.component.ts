@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
 import {Role} from "../../../models/userInfo";
 import {ArtistsService} from "../../../services/artists.service";
@@ -14,7 +14,10 @@ export class ArtistComponent implements OnInit{
   id: string = "123";
   artist: Artist = new Artist();
 
-  constructor(private route: ActivatedRoute, private artistsService: ArtistsService) {
+  constructor(private route: ActivatedRoute, private router: Router, private artistsService: ArtistsService) {
+  }
+  navigateToRelease(id: string){
+    this.router.navigate(['releases/release'], {queryParams:{id}})
   }
 
   ngOnInit(): void {

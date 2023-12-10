@@ -19,5 +19,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [Role.Admin, Role.DatabaseAdmin, Role.Default]}
   },
+  {
+    path:'releases',
+    loadChildren: ()=> import('./releases/releases.module').then(m => m.ReleasesModule),
+    canActivate: [AuthGuard],
+    data: {roles: [Role.Admin, Role.DatabaseAdmin, Role.Default]}
+  },
   { path: '**', redirectTo: '' }
 ];

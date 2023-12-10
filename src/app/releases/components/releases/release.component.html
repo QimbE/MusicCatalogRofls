@@ -1,0 +1,44 @@
+<h1>{{release.name | titlecase}}</h1>
+<div>
+  <img alt="album cover"  src="{{release.linkToCover}}" style="width: 200px; height: 200px">
+</div>
+<a (click)="navigateToArtist(release.author.id)"> by {{release.author.name}}</a>
+<p>{{release.releaseDate}}</p>
+
+<p *ngIf="release.description">{{release.description}}</p>
+<h2>Songs</h2>
+<p *ngIf="!release.songs || release.songs.length===0">No songs...</p>
+<table>
+  <thead>
+  <tr>
+    <th>
+
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Genre
+    </th>
+    <th>
+      Feat.
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let song of release.songs" (click)="navigateToSong(song.audioLink)">
+    <th>
+      <img src="{{release.linkToCover}}" style="width: 50px; height: 50px"  alt="album cover" >
+    </th>
+    <th>
+      {{song.name | titlecase}}
+    </th>
+    <th>
+      {{song.genre.name | titlecase}}
+    </th>
+    <th>
+      <a *ngFor="let artist of song.artistsOnFeat" (click)="navigateToArtist(artist.id)">{{artist.name}}</a>
+    </th>
+  </tr>
+  </tbody>
+</table>

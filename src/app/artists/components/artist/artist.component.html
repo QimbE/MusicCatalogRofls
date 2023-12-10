@@ -2,7 +2,7 @@
 <p *ngIf="artist.description">{{artist.description}}</p>
 <h2>Releases</h2>
 <p *ngIf="!artist.releases || artist.releases.length===0">No releases...</p>
-<button *ngFor="let release of artist.releases">
+<button *ngFor="let release of artist.releases" (click)="navigateToRelease(release.id)">
   <img src="{{release.linkToCover}}" style="width: 100px; height: 100px">
   <p>{{release.name}}</p>
   <span>{{release.type}}</span><br>

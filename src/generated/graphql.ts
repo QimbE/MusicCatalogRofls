@@ -566,6 +566,16 @@ export type ListArtistsQueryVariables = Exact<{
 
 export type ListArtistsQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ArtistsEdge', cursor: string, node: { __typename?: 'Artist', id: any, name: string } }> | null } | null };
 
+export type ListReleasesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ListReleasesQuery = { __typename?: 'Endpoint', releases?: { __typename?: 'ReleasesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ReleasesEdge', cursor: string, node: { __typename?: 'Release', id: any, name: string, releaseDate: any, type: ReleaseType, linkToCover: string, author: { __typename?: 'Artist', id: any, name: string } } }> | null } | null };
+
 export type UsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -625,6 +635,44 @@ export const ListArtistsDocument = gql`
   })
   export class ListArtistsGQL extends Apollo.Query<ListArtistsQuery, ListArtistsQueryVariables> {
     override document = ListArtistsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListReleasesDocument = gql`
+    query ListReleases($first: Int, $last: Int, $after: String, $before: String) {
+  releases(first: $first, last: $last, after: $after, before: $before) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        author {
+          id
+          name
+        }
+        id
+        name
+        releaseDate
+        type
+        linkToCover
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListReleasesGQL extends Apollo.Query<ListReleasesQuery, ListReleasesQueryVariables> {
+    override document = ListReleasesDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
