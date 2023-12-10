@@ -1,0 +1,10 @@
+query ArtistForm($id: UUID){
+  artists(where: {id: {eq: $id}}){
+    edges{
+      node{
+        name
+        description
+      }
+    }
+  }
+}

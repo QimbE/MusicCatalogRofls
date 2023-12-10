@@ -3,7 +3,7 @@ import {BaseUser} from "./baseUser";
 export class UserInfo{
   id:string = "";
   username = "";
-  role: Role = 1;
+  roleId: Role = 1;
 
 }
 

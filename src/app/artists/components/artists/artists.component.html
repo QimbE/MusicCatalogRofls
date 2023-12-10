@@ -13,9 +13,6 @@
     <th>
 
     </th>
-    <th>
-
-    </th>
   </tr>
   </thead>
   <tbody>
@@ -27,16 +24,14 @@
       <button (click)="navigateToArtistPage(artist.id)">To the page</button>
     </th>
     <th>
-
+      <button *ngIf="accessToContentManagment" (click) = "navigateToEditArtistForm(artist.id)">Edit</button>
     </th>
     <th>
-
-    </th>
-    <th>
-
+      <button *ngIf="accessToContentManagment" (click) = "deleteArtist(artist.id)">Delete</button>
     </th>
   </tr>
   </tbody>
 </table>
 <button *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
-<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>
+<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button> <br>
+<button *ngIf="accessToContentManagment" (click) = "navigateToAddArtistForm()">Add New Artist</button>

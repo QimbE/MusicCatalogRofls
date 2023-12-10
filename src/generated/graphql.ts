@@ -549,6 +549,13 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type ArtistFormQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type ArtistFormQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', edges?: Array<{ __typename?: 'ArtistsEdge', node: { __typename?: 'Artist', name: string, description?: string | null } }> | null } | null };
+
 export type ListArtistsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -569,6 +576,29 @@ export type UsersQueryVariables = Exact<{
 
 export type UsersQuery = { __typename?: 'Endpoint', users?: { __typename?: 'UsersConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'UsersEdge', cursor: string, node: { __typename?: 'User', id: any, username: string, email: string, role: Role } }> | null } | null };
 
+export const ArtistFormDocument = gql`
+    query ArtistForm($id: UUID) {
+  artists(where: {id: {eq: $id}}) {
+    edges {
+      node {
+        name
+        description
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ArtistFormGQL extends Apollo.Query<ArtistFormQuery, ArtistFormQueryVariables> {
+    override document = ArtistFormDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ListArtistsDocument = gql`
     query ListArtists($first: Int, $last: Int, $after: String, $before: String) {
   artists(first: $first, last: $last, after: $after, before: $before) {

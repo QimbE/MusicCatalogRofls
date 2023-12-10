@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {UsersService} from "../../../services/users.service";
 import {ArtistsService} from "../../../services/artists.service";
+import {AuthenticationService} from "../../../services/authentication.service";
+import {Role} from "../../../models/userInfo";
 
 @Component({
   selector: 'app-artists',
@@ -15,12 +16,18 @@ export class ArtistsComponent implements OnInit{
   hasNextPage = true;
   hasPreviousPage = false;
   count:number = 5;
+  rolesToContentEdit: Role[] = [Role.DatabaseAdmin, Role.Admin]
 
-  constructor(private router: Router, private artistsService: ArtistsService) {
+  constructor(private router: Router, private artistsService: ArtistsService, private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
         this.loadNext();
+  }
+
+  public get accessToContentManagment(){
+    const user = this.authService.userValue;
+    return user && this.rolesToContentEdit.includes(user.roleId);
   }
 
   public loadNext(){
@@ -45,8 +52,22 @@ export class ArtistsComponent implements OnInit{
   }
 
   navigateToArtistPage(id:string) {
-    // Перенаправление на страницу формы с предзаполненными данными
     this.router.navigate
     (['artists/list/artist'], { queryParams: { id} });
   }
+
+  navigateToEditArtistForm(id:string){
+    this.router.navigate
+    (['artists/list/upsert'], { queryParams: { id} });
+  }
+
+  navigateToAddArtistForm(){
+    this.router.navigate
+    (['artists/list/upsert']);
+  }
+
+  deleteArtist(id: string){
+
+  }
+
 }

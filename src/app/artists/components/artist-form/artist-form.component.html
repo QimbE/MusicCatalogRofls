@@ -1,0 +1,8 @@
+<h1>{{id!==""? "Edit": "Create"}} Artist</h1>
+<form [formGroup]="artistForm">
+  <input type="text" placeholder="Name" formControlName="name">
+  <br>
+  <input type="text" placeholder="Description" formControlName="description">
+  <br>
+  <button type="submit" (click)="upsertArtist()">Submit</button>
+</form>
