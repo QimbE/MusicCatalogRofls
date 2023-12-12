@@ -1,0 +1,14 @@
+query ReleaseForm($id: UUID){
+  releases(where: {id: {eq: $id}}){
+    edges{
+      node{
+        name
+        description
+        authorId
+        typeId
+        releaseDate
+        linkToCover
+      }
+    }
+  }
+}

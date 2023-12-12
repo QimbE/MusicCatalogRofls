@@ -1,0 +1,16 @@
+<h1>{{id!==""? "Edit": "Create"}} Release</h1>
+<form [formGroup]="releaseForm" >
+  <input type="text" placeholder="Name" formControlName="name">
+  <br>
+  <input type="text" placeholder="Description" formControlName="description">
+  <br>
+  <input [hidden]="isCreate" type="text" placeholder="Author Id" formControlName="authorId">
+  <br [hidden]="isCreate">
+  <input type="number" placeholder="Type Id" formControlName="typeId">
+  <br>
+  <input type="date" placeholder="Release Date" formControlName="releaseDate">
+  <br>
+  <input type="text" placeholder="Link to cover of Release" formControlName="linkToCover">
+  <br>
+  <button type="submit" (click)="upsertRelease()">Submit</button>
+</form>

@@ -566,6 +566,13 @@ export type ListArtistsQueryVariables = Exact<{
 
 export type ListArtistsQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ArtistsEdge', cursor: string, node: { __typename?: 'Artist', id: any, name: string } }> | null } | null };
 
+export type ReleaseFormQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type ReleaseFormQuery = { __typename?: 'Endpoint', releases?: { __typename?: 'ReleasesConnection', edges?: Array<{ __typename?: 'ReleasesEdge', node: { __typename?: 'Release', name: string, description?: string | null, authorId: any, typeId: number, releaseDate: any, linkToCover: string } }> | null } | null };
+
 export type ListReleasesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -635,6 +642,33 @@ export const ListArtistsDocument = gql`
   })
   export class ListArtistsGQL extends Apollo.Query<ListArtistsQuery, ListArtistsQueryVariables> {
     override document = ListArtistsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ReleaseFormDocument = gql`
+    query ReleaseForm($id: UUID) {
+  releases(where: {id: {eq: $id}}) {
+    edges {
+      node {
+        name
+        description
+        authorId
+        typeId
+        releaseDate
+        linkToCover
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReleaseFormGQL extends Apollo.Query<ReleaseFormQuery, ReleaseFormQueryVariables> {
+    override document = ReleaseFormDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

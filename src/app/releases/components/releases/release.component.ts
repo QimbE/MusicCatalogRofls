@@ -3,6 +3,8 @@ import {Release} from "../../../models/releaseResponse";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {ReleasesService} from "../../../services/releases.service";
 import {Observable, switchMap} from "rxjs";
+import {AuthenticationService} from "../../../services/authentication.service";
+import {Role} from "../../../models/userInfo";
 
 @Component({
   selector: 'app-releases',
@@ -12,8 +14,9 @@ import {Observable, switchMap} from "rxjs";
 export class ReleaseComponent implements OnInit{
   id:string = "123";
   release: Release = new Release();
+  rolesToContentEdit: Role[] = [Role.DatabaseAdmin, Role.Admin]
 
-  constructor(private router: Router, private route: ActivatedRoute, private releasesService: ReleasesService) {
+  constructor(private router: Router, private route: ActivatedRoute, private releasesService: ReleasesService, private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
@@ -35,6 +38,23 @@ export class ReleaseComponent implements OnInit{
 
   navigateToSong(link:string){
     window.open(link);
+  }
+
+  navigateToSongForm(id: string, releaseId: string){
+    this.router.navigate(['songs/list/songForm'], {queryParams:{id, releaseId}});
+  }
+
+  public get accessToContentManagment(){
+    const user = this.authService.userValue;
+    return user && this.rolesToContentEdit.includes(user.roleId);
+  }
+
+  navigateToReleaseForm(id: string){
+    this.router.navigate(['releases/release/releaseForm'], {queryParams:{id}});
+  }
+
+  deleteSong(id: string){
+    // TODO:
   }
 
 }

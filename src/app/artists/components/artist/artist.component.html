@@ -8,3 +8,4 @@
   <span>{{release.type}}</span><br>
   <span>{{release.releaseDate}}</span>
 </button>
+<button *ngIf="accessToContentManagment" (click)="navigateToReleaseForm('', artist.id)">Create new release</button>

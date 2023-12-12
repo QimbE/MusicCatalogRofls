@@ -6,6 +6,7 @@
 <p>{{release.releaseDate}}</p>
 
 <p *ngIf="release.description">{{release.description}}</p>
+<button *ngIf="accessToContentManagment" (click)="navigateToReleaseForm(release.id)">Edit this Release</button>
 <h2>Songs</h2>
 <p *ngIf="!release.songs || release.songs.length===0">No songs...</p>
 <table>
@@ -23,6 +24,12 @@
     <th>
       Feat.
     </th>
+    <th>
+
+    </th>
+    <th>
+
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -39,6 +46,13 @@
     <th>
       <a *ngFor="let artist of song.artistsOnFeat" (click)="navigateToArtist(artist.id)">{{artist.name}}</a>
     </th>
+    <th>
+      <button *ngIf="accessToContentManagment" (click)="navigateToSongForm(song.id, release.id)">Edit</button>
+    </th>
+    <th>
+      <button *ngIf="accessToContentManagment" >Delete</button>
+    </th>
   </tr>
   </tbody>
 </table>
+<button *ngIf="accessToContentManagment" (click)="navigateToSongForm('', release.id)">Add new song to this Release</button>

@@ -3,14 +3,18 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import { ReleasesRoutingModule } from './releases-routing.module';
 import {ReleaseComponent} from "./components/releases/release.component";
+import {ReleaseformComponent} from "./components/releaseform/releaseform.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [ReleaseComponent],
+  declarations: [ReleaseComponent, ReleaseformComponent],
   imports: [
     CommonModule,
     ReleasesRoutingModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ReleasesModule { }

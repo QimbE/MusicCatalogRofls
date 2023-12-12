@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {APIResponse} from "../models/response";
-import {ListReleasesGQL} from "../../generated/graphql";
+import {ListReleasesGQL, ReleaseFormGQL} from "../../generated/graphql";
 import {ReleaseResponse} from "../models/releaseResponse";
 
 @Injectable({
@@ -9,7 +9,7 @@ import {ReleaseResponse} from "../models/releaseResponse";
 })
 export class ReleasesService {
 
-  constructor(private httpClient: HttpClient, private query: ListReleasesGQL) {
+  constructor(private httpClient: HttpClient, private query: ListReleasesGQL, private formQuery: ReleaseFormGQL) {
 
   }
 
@@ -28,8 +28,9 @@ export class ReleasesService {
     });
   }
 
-  public updateRelease(authorId: string, typeId: number, name: string, description:string, releaseDate:Date, linkToCover:string){
+  public updateRelease(id: string, authorId: string, typeId: number, name: string, description:string, releaseDate:Date, linkToCover:string){
     return this.httpClient.put<APIResponse>(`http://localhost:8088/Releases`, {
+      id: id,
       authorId:authorId,
       typeId:typeId,
       name:name,
@@ -39,10 +40,10 @@ export class ReleasesService {
     });
   }
 
-  // public getForm(id: string){
-  //   return this.formQuery.watch({id: id})
-  //     .valueChanges
-  // }
+  public getForm(id: string){
+    return this.formQuery.watch({id: id})
+      .valueChanges
+  }
 
   public getRelease(id: string){
     return this.httpClient.get<ReleaseResponse>(`http://localhost:8088/Releases/${id}`);
