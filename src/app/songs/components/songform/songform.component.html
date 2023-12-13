@@ -1,1 +1,17 @@
-<p>songform works!</p>
+<h1>{{id!==""? "Edit": "Create"}} Song</h1>
+<form [formGroup]="songForm" >
+  <input type="text" placeholder="Name" formControlName="name">
+  <br>
+  <input type="text" placeholder="Genre Name" formControlName="genreName">
+  <br>
+  <input type="text" placeholder="Link to audio file" formControlName="audioLink">
+  <br>
+  <div formArrayName="artistOnFeatIds">
+    <div *ngFor="let artistControl of artistOnFeatIdsFormArray['controls']; let i = index">
+      <input formControlName="{{i}}" placeholder="Artist ID" />
+      <button type="button" (click)="removeArtistId(i)">Remove</button>
+    </div>
+    <button type="button" (click)="addArtistId()">Add Artist ID</button>
+  </div>
+  <button type="submit" (click)="upsertSong()">Submit</button>
+</form>

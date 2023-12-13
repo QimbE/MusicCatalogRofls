@@ -1,0 +1,14 @@
+query SongForm($id: UUID){
+  songs(where: {id: {eq: $id}}){
+    edges{
+      node{
+        name
+        genreId
+        audioLink
+        artistsOnFeat {
+          id
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {ReleasesService} from "../../../services/releases.service";
 import {Observable, switchMap} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {Role} from "../../../models/userInfo";
+import {SongsService} from "../../../services/songs.service";
 
 @Component({
   selector: 'app-releases',
@@ -16,7 +17,7 @@ export class ReleaseComponent implements OnInit{
   release: Release = new Release();
   rolesToContentEdit: Role[] = [Role.DatabaseAdmin, Role.Admin]
 
-  constructor(private router: Router, private route: ActivatedRoute, private releasesService: ReleasesService, private authService: AuthenticationService) {
+  constructor(private router: Router, private route: ActivatedRoute, private releasesService: ReleasesService, private songsService:SongsService, private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
@@ -53,8 +54,18 @@ export class ReleaseComponent implements OnInit{
     this.router.navigate(['releases/release/releaseForm'], {queryParams:{id}});
   }
 
+  deleteRelease(id: string){
+    this.releasesService.deleteRelease(id).subscribe(x=>{
+      this.router.navigate(['artists/list'])
+    });
+  }
+
   deleteSong(id: string){
-    // TODO:
+    this.songsService.deleteSong(id).subscribe(x =>{
+      if (x.message==="Success"){
+        window.location.reload();
+      }
+    });
   }
 
 }

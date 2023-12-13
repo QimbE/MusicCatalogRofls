@@ -566,6 +566,13 @@ export type ListArtistsQueryVariables = Exact<{
 
 export type ListArtistsQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ArtistsEdge', cursor: string, node: { __typename?: 'Artist', id: any, name: string } }> | null } | null };
 
+export type GenreExistQueryVariables = Exact<{
+  name?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GenreExistQuery = { __typename?: 'Endpoint', genres?: { __typename?: 'GenresConnection', edges?: Array<{ __typename?: 'GenresEdge', node: { __typename?: 'Genre', id: any } }> | null } | null };
+
 export type ReleaseFormQueryVariables = Exact<{
   id?: InputMaybe<Scalars['UUID']['input']>;
 }>;
@@ -582,6 +589,13 @@ export type ListReleasesQueryVariables = Exact<{
 
 
 export type ListReleasesQuery = { __typename?: 'Endpoint', releases?: { __typename?: 'ReleasesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ReleasesEdge', cursor: string, node: { __typename?: 'Release', id: any, name: string, releaseDate: any, type: ReleaseType, linkToCover: string, author: { __typename?: 'Artist', id: any, name: string } } }> | null } | null };
+
+export type SongFormQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type SongFormQuery = { __typename?: 'Endpoint', songs?: { __typename?: 'SongsConnection', edges?: Array<{ __typename?: 'SongsEdge', node: { __typename?: 'Song', name: string, genreId: any, audioLink: string, artistsOnFeat: Array<{ __typename?: 'Artist', id: any }> } }> | null } | null };
 
 export type UsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -647,6 +661,28 @@ export const ListArtistsDocument = gql`
       super(apollo);
     }
   }
+export const GenreExistDocument = gql`
+    query GenreExist($name: String) {
+  genres(where: {name: {eq: $name}}) {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GenreExistGQL extends Apollo.Query<GenreExistQuery, GenreExistQueryVariables> {
+    override document = GenreExistDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ReleaseFormDocument = gql`
     query ReleaseForm($id: UUID) {
   releases(where: {id: {eq: $id}}) {
@@ -707,6 +743,33 @@ export const ListReleasesDocument = gql`
   })
   export class ListReleasesGQL extends Apollo.Query<ListReleasesQuery, ListReleasesQueryVariables> {
     override document = ListReleasesDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SongFormDocument = gql`
+    query SongForm($id: UUID) {
+  songs(where: {id: {eq: $id}}) {
+    edges {
+      node {
+        name
+        genreId
+        audioLink
+        artistsOnFeat {
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SongFormGQL extends Apollo.Query<SongFormQuery, SongFormQueryVariables> {
+    override document = SongFormDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

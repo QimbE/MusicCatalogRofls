@@ -1,0 +1,9 @@
+query GenreExist($name: String){
+  genres(where: {name: {eq: $name}}){
+    edges{
+      node{
+        id
+      }
+    }
+  }
+}
