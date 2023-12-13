@@ -1,4 +1,5 @@
-<table>
+<h1>Users</h1>
+<table class="table table-striped table-hover">
   <thead>
   <tr>
     <th>
@@ -20,24 +21,24 @@
   </thead>
   <tbody>
   <tr *ngFor="let user of users">
-    <th>
+    <td>
       {{user.id}}
-    </th>
-    <th>
+    </td>
+    <td>
       {{user.username}}
-    </th>
-    <th>
+    </td>
+    <td>
       {{user.email}}
-    </th>
-    <th>
+    </td>
+    <td>
       {{user.role | titlecase}}
-    </th>
-    <th>
-      <button (click)="navigateToUserForm(user.id, user.username, user.role)">Edit</button>
-    </th>
+    </td>
+    <td>
+      <button type="button"  class="btn btn-warning" (click)="navigateToUserForm(user.id, user.username, user.role)">Edit</button>
+    </td>
   </tr>
   </tbody>
 </table>
-<button *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
-<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>
+<button type="button" class="btn btn-dark" *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
+<button type="button" class="btn btn-dark" *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>
 

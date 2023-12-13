@@ -1,0 +1,9 @@
+query FavouritesFromRelease($userId:UUID, $releaseId:UUID){
+  songs(where: {songUsers:{some: {userId: {eq: $userId}}}, releaseId:{eq: $releaseId}}){
+    edges{
+      node{
+        id
+      }
+    }
+  }
+}

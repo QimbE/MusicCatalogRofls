@@ -1,0 +1,35 @@
+query ListSongs($first: Int, $last: Int, $after:String, $before:String, $userId:UUID){
+  songs(first: $first, last: $last, after: $after, before: $before, where: {songUsers:{some: {userId: {eq: $userId}}}}){
+    totalCount
+    pageInfo{
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges{
+      cursor
+      node{
+        id
+        name
+        genre {
+          name
+        }
+        audioLink
+        artistsOnFeat {
+          id
+          name
+        }
+        release {
+          id
+          name
+          linkToCover
+          author {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}

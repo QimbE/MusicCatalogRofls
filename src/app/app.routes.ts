@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {AuthGuard} from "./services/auth-guard.service";
 import {Role} from "./models/userInfo";
+import {SongsListComponent} from "./components/songs-list/songs-list.component";
 
 export const routes: Routes = [
   {
@@ -31,5 +32,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [Role.Admin, Role.DatabaseAdmin, Role.Default]}
   },
-  { path: '**', redirectTo: '' }
+  { path: '**',
+    loadComponent: () => SongsListComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.Admin, Role.DatabaseAdmin, Role.Default]}
+  }
 ];

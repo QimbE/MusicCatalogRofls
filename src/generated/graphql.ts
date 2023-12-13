@@ -566,6 +566,14 @@ export type ListArtistsQueryVariables = Exact<{
 
 export type ListArtistsQuery = { __typename?: 'Endpoint', artists?: { __typename?: 'ArtistsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'ArtistsEdge', cursor: string, node: { __typename?: 'Artist', id: any, name: string } }> | null } | null };
 
+export type FavouritesFromReleaseQueryVariables = Exact<{
+  userId?: InputMaybe<Scalars['UUID']['input']>;
+  releaseId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type FavouritesFromReleaseQuery = { __typename?: 'Endpoint', songs?: { __typename?: 'SongsConnection', edges?: Array<{ __typename?: 'SongsEdge', node: { __typename?: 'Song', id: any } }> | null } | null };
+
 export type GenreExistQueryVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -596,6 +604,17 @@ export type SongFormQueryVariables = Exact<{
 
 
 export type SongFormQuery = { __typename?: 'Endpoint', songs?: { __typename?: 'SongsConnection', edges?: Array<{ __typename?: 'SongsEdge', node: { __typename?: 'Song', name: string, genreId: any, audioLink: string, artistsOnFeat: Array<{ __typename?: 'Artist', id: any }> } }> | null } | null };
+
+export type ListSongsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type ListSongsQuery = { __typename?: 'Endpoint', songs?: { __typename?: 'SongsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, edges?: Array<{ __typename?: 'SongsEdge', cursor: string, node: { __typename?: 'Song', id: any, name: string, audioLink: string, genre: { __typename?: 'Genre', name: string }, artistsOnFeat: Array<{ __typename?: 'Artist', id: any, name: string }>, release: { __typename?: 'Release', id: any, name: string, linkToCover: string, author: { __typename?: 'Artist', id: any, name: string } } } }> | null } | null };
 
 export type UsersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -656,6 +675,30 @@ export const ListArtistsDocument = gql`
   })
   export class ListArtistsGQL extends Apollo.Query<ListArtistsQuery, ListArtistsQueryVariables> {
     override document = ListArtistsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FavouritesFromReleaseDocument = gql`
+    query FavouritesFromRelease($userId: UUID, $releaseId: UUID) {
+  songs(
+    where: {songUsers: {some: {userId: {eq: $userId}}}, releaseId: {eq: $releaseId}}
+  ) {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FavouritesFromReleaseGQL extends Apollo.Query<FavouritesFromReleaseQuery, FavouritesFromReleaseQueryVariables> {
+    override document = FavouritesFromReleaseDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -770,6 +813,60 @@ export const SongFormDocument = gql`
   })
   export class SongFormGQL extends Apollo.Query<SongFormQuery, SongFormQueryVariables> {
     override document = SongFormDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListSongsDocument = gql`
+    query ListSongs($first: Int, $last: Int, $after: String, $before: String, $userId: UUID) {
+  songs(
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    where: {songUsers: {some: {userId: {eq: $userId}}}}
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        genre {
+          name
+        }
+        audioLink
+        artistsOnFeat {
+          id
+          name
+        }
+        release {
+          id
+          name
+          linkToCover
+          author {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListSongsGQL extends Apollo.Query<ListSongsQuery, ListSongsQueryVariables> {
+    override document = ListSongsDocument;
 
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

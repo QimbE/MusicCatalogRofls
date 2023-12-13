@@ -1,8 +1,17 @@
 <h1>Edit user</h1>
 <form [formGroup]="userForm">
-  <input type="text" placeholder="Username" formControlName="username">
-  <br>
+  <label>Username</label>
+  <div>
+    <input type="text" placeholder="Username" formControlName="username">
+    <div *ngIf="userForm.controls['username'].invalid && userForm.controls['username'].touched" class="text-danger">
+      <div *ngFor="let err of getErrors(userForm.get('username')); trackBy:errorTrack">
+        {{err['key']}} | translate : {{err['msg']}}
+      </div>
+    </div>
+  </div>
+
+
   <input type="text" placeholder="Role" formControlName="role">
-  <br>
-  <button type="submit" (click)="editUser()">Submit</button>
+
+  <button type="submit" class="btn btn-dark" (click)="editUser()">Submit</button>
 </form>

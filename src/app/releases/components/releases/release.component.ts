@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Release} from "../../../models/releaseResponse";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {ReleasesService} from "../../../services/releases.service";
-import {Observable, switchMap} from "rxjs";
+import {firstValueFrom, Observable, switchMap} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {Role} from "../../../models/userInfo";
 import {SongsService} from "../../../services/songs.service";
@@ -16,21 +16,42 @@ export class ReleaseComponent implements OnInit{
   id:string = "123";
   release: Release = new Release();
   rolesToContentEdit: Role[] = [Role.DatabaseAdmin, Role.Admin]
+  songsInFavourites: string[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private releasesService: ReleasesService, private songsService:SongsService, private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.pipe(
+    firstValueFrom(this.route.queryParamMap.pipe(
       switchMap((params: ParamMap) => {
         this.id = params.get('id')!;
         return new Observable();
       })
-    ).subscribe();
+    )).then();
 
-    this.releasesService.getRelease(this.id).subscribe(({data}) =>{
-      this.release = data;
+    firstValueFrom(this.releasesService.getRelease(this.id)).then(x =>{
+      this.release = x.data;
     });
+
+    firstValueFrom(this.songsService.getFavouritesFromRelease(this.authService.userValue?.id!, this.id)).then(x =>{
+      this.songsInFavourites = x.map(y=> y.node.id);
+    });
+  }
+
+  isSongInFavourites(id:string){
+    return this.songsInFavourites.includes(id);
+  }
+
+  addToFavourites(id:string){
+    firstValueFrom(this.songsService.addToFavourites(id)).then(x=>{
+      this.songsInFavourites.push(id);
+    })
+  }
+
+  removeFromFavourites(id:string){
+    firstValueFrom(this.songsService.removeFromFavourites(id)).then(x=>{
+      this.songsInFavourites.splice(this.songsInFavourites.indexOf(id));
+    })
   }
 
   navigateToArtist(id:string){

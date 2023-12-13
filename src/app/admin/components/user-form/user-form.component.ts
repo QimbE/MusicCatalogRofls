@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Role} from "../../../models/userInfo";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Observable, switchMap} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {UsersService} from "../../../services/users.service";
 
 @Component({
@@ -19,6 +19,15 @@ export class UserFormComponent implements OnInit{
     username: new FormControl('', [Validators.required, Validators.minLength(6)]),
     role: new FormControl('', [Validators.required])
   });
+
+  public getErrors(control: AbstractControl | null): ValidationErrors[] {
+    return Object.entries(control?.errors ?? {})
+      .map(([key, msg]: [string, any]) => ({ key, msg }));
+  }
+
+  public errorTrack(index: number, err: ValidationErrors): string {
+    return err['key'] ?? '';
+  }
 
   constructor(private route: ActivatedRoute, private usersService: UsersService, private router: Router) {
     this.id = "123"

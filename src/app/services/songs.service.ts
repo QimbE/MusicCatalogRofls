@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {APIResponse} from "../models/response";
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {GenreExistGQL, SongFormGQL} from "../../generated/graphql";
+import {FavouritesFromReleaseGQL, GenreExistGQL, ListSongsGQL, SongFormGQL} from "../../generated/graphql";
 import {GenreResponse} from "../models/genreResponse";
 
 @Injectable({
@@ -10,8 +10,20 @@ import {GenreResponse} from "../models/genreResponse";
 })
 export class SongsService {
 
-  constructor(private httpClient: HttpClient, private isExist: GenreExistGQL, private songForm: SongFormGQL) {
+  constructor(private httpClient: HttpClient, private isExist: GenreExistGQL, private songForm: SongFormGQL, private query: ListSongsGQL, private favouritesFromRelease: FavouritesFromReleaseGQL) {
 
+  }
+
+  public addToFavourites(id: string){
+    return this.httpClient.post<APIResponse>("http://localhost:8088/Favourites", {id});
+  }
+  public removeFromFavourites(id: string){
+    return this.httpClient.delete<APIResponse>("http://localhost:8088/Favourites", {body:{id}});
+  }
+  public getFavouritesFromRelease(userId:string, releaseId:string){
+    return this.favouritesFromRelease.watch({userId: userId, releaseId: releaseId}).valueChanges.pipe(map(x=>{
+      return x.data.songs!.edges!;
+    }))
   }
 
   public createSong(releaseId: string, genreId: string, name: string, audioLink: string, artistOnFeatIds:string[]){
@@ -66,5 +78,15 @@ export class SongsService {
       id: id,
       name:name
     });
+  }
+
+  public prevPage(last:number, startCursor: string | null, userId: string | null){
+    return this.query.watch({last: last, before: startCursor, userId: userId})
+      .valueChanges
+  }
+
+  public nextPage(first:number, endCursor: string | null, userId: string | null){
+    return this.query.watch({first: first, after: endCursor, userId: userId })
+      .valueChanges
   }
 }

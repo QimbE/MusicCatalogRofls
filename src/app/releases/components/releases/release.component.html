@@ -32,28 +32,34 @@
     <th>
 
     </th>
+    <th>
+
+    </th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let song of release.songs" (click)="navigateToSong(song.audioLink)">
-    <th>
-      <img src="{{release.linkToCover}}" style="width: 50px; height: 50px"  alt="album cover" >
-    </th>
-    <th>
+  <tr *ngFor="let song of release.songs">
+    <td>
+      <img src="{{release.linkToCover}}" style="width: 50px; height: 50px"  alt="album cover" (click)="navigateToSong(song.audioLink)">
+    </td>
+    <td>
       {{song.name | titlecase}}
-    </th>
-    <th>
+    </td>
+    <td>
       {{song.genre.name | titlecase}}
-    </th>
-    <th>
+    </td>
+    <td>
       <a *ngFor="let artist of song.artistsOnFeat" (click)="navigateToArtist(artist.id)"> {{artist.name}}</a>
-    </th>
-    <th>
+    </td>
+    <td>
+      <i [class]="'bi bi-heart'+(isSongInFavourites(song.id) ? '-fill': '')" style="cursor: pointer;" (click)="isSongInFavourites(song.id) ? removeFromFavourites(song.id): addToFavourites(song.id)"></i>
+    </td>
+    <td>
       <button *ngIf="accessToContentManagment" (click)="navigateToSongForm(song.id, release.id)">Edit</button>
-    </th>
-    <th>
+    </td>
+    <td>
       <button type="button" *ngIf="accessToContentManagment" (click)="deleteSong(song.id)">Delete</button>
-    </th>
+    </td>
   </tr>
   </tbody>
 </table>

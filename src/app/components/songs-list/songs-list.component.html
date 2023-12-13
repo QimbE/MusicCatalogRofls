@@ -1,0 +1,59 @@
+<div class="container mt-3">
+  <h1 class="text-dark mb-2">Favourites</h1>
+  <h5 class="text-primary" *ngIf="songs.length===0">Seems like you have not added any song to your favourites...</h5>
+<table *ngIf="songs.length>0" class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th class="w-auto">
+
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Author
+    </th>
+    <th>
+      feat.
+    </th>
+    <th>
+      Genre
+    </th>
+    <th>
+      Release
+    </th>
+    <th>
+
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let song of songs">
+    <td class="align-middle" style="width: 6%">
+      <img src="{{song.release.linkToCover}}" style="width:50px; height: 50px">
+    </td>
+    <td class="align-middle" style="width: 20%">
+      {{song.name}}
+    </td>
+    <td class="align-middle" style="width: 15%">
+      <a style="cursor: pointer;" (click)="navigateToArtistPage(song.release.author.id)">{{song.release.author.name}} </a>
+    </td>
+    <td class="align-middle" style="width: 25%">
+      <a style="cursor: pointer;" *ngFor="let artist of song.artistsOnFeat" (click)="navigateToArtistPage(artist.id)"> {{artist.name}}</a>
+    </td>
+    <td class="align-middle" style="width: 10%">
+      {{song.genre.name}}
+    </td>
+    <td class="align-middle" style="width: 15%">
+      <a style="cursor: pointer;" (click)="navigateToReleasePage(song.release.id)">{{song.release.name}}</a>
+    </td>
+    <td class="align-middle" style="width: 9%">
+      <h4 (click)="removeFromFavourites(song.id)" class="bi bi-heart-fill" style="cursor: pointer;"></h4>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-dark" *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
+<button type="button" class="btn btn-dark" *ngIf="hasNextPage" (click)="loadNext()">Load Next</button>
+</div>
