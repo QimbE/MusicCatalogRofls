@@ -22,7 +22,7 @@ export class SongsListComponent implements OnInit{
   endCursor: string | null = null;
   hasNextPage = true;
   hasPreviousPage = false;
-  count:number = 10;
+  count:number = 6;
   userId: string | null = null;
 
   constructor(private router: Router, private songsService: SongsService, private authService: AuthenticationService) {

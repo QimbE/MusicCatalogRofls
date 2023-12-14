@@ -8,10 +8,10 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarColor01">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" (click) = "navigateToHomePage()">Favourites</a>
+            <a class="nav-link" style="cursor: pointer;" (click) = "navigateToHomePage()">Favourites</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="navigateToArtistsPage()">Artists</a>
+            <a class="nav-link" style="cursor: pointer;" (click)="navigateToArtistsPage()">Artists</a>
           </li>
           <li *ngIf="accessToUserManagment" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -19,7 +19,7 @@
             </a>
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a class="nav-link" (click)="navigateToUsersPage()">Users</a>
+                <a style="cursor: pointer;" class="nav-link" (click)="navigateToUsersPage()">Users</a>
               </li>
             </ul>
           </li>
@@ -27,10 +27,10 @@
         </ul>
         <ul class="navbar-nav ">
           <li *ngIf="!isUserloggedIn" class="nav-item">
-            <a class="nav-link" (click)="navigateToLoginPage()" >Login</a>
+            <a class="nav-link" style="cursor: pointer;" (click)="navigateToLoginPage()" >Login</a>
           </li>
           <li *ngIf="isUserloggedIn" class="nav-item">
-            <a class="nav-link" (click)="logOut()">Logout</a>
+            <a class="nav-link" style="cursor: pointer;" (click)="logOut()">Logout</a>
           </li>
         </ul>
       </div>

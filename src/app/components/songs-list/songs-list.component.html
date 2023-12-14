@@ -30,7 +30,7 @@
   <tbody>
   <tr *ngFor="let song of songs">
     <td class="align-middle" style="width: 6%">
-      <img src="{{song.release.linkToCover}}" style="width:50px; height: 50px">
+      <img (click)="navigateToAudio(song.linkToAudio)" src="{{song.release.linkToCover}}" style="width:50px; height: 50px; cursor: pointer;">
     </td>
     <td class="align-middle" style="width: 20%">
       {{song.name}}

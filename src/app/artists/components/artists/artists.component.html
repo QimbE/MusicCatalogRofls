@@ -1,4 +1,4 @@
-<table>
+<table class="table table-striped table-hover">
   <thead>
   <tr>
     <th>
@@ -7,31 +7,23 @@
     <th>
 
     </th>
-    <th>
-
-    </th>
-    <th>
-
-    </th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let artist of artists">
-    <th>
-      {{artist.name | titlecase}}
+    <th style="width: 90%">
+      <a style="cursor: pointer;" (click)="navigateToArtistPage(artist.id)">{{artist.name | titlecase}}</a>
     </th>
     <th>
-      <button (click)="navigateToArtistPage(artist.id)">To the page</button>
-    </th>
-    <th>
-      <button *ngIf="accessToContentManagment" (click) = "navigateToEditArtistForm(artist.id)">Edit</button>
-    </th>
-    <th>
-      <button *ngIf="accessToContentManagment" (click) = "deleteArtist(artist.id)">Delete</button>
+      <div class="btn-group">
+        <button class="btn btn-warning" *ngIf="accessToContentManagment" (click) = "navigateToEditArtistForm(artist.id)">Edit</button>
+        <button class="btn btn-danger" *ngIf="accessToContentManagment" (click) = "deleteArtist(artist.id)">Delete</button>
+      </div>
     </th>
   </tr>
   </tbody>
 </table>
-<button *ngIf="hasPreviousPage" (click)="loadPrev()">Load Prev</button>
-<button *ngIf="hasNextPage" (click)="loadNext()">Load Next</button> <br>
-<button *ngIf="accessToContentManagment" (click) = "navigateToAddArtistForm()">Add New Artist</button>
+<button class="btn btn-success" *ngIf="accessToContentManagment" (click) = "navigateToAddArtistForm()">Add New Artist</button>
+<button *ngIf="hasPreviousPage" class="btn btn-dark" (click)="loadPrev()">Load Prev</button>
+<button *ngIf="hasNextPage" class="btn btn-dark" (click)="loadNext()">Load Next</button> <br>
+

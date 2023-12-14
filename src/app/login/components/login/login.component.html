@@ -1,9 +1,13 @@
 <h1>Login</h1>
 <form [formGroup]="loginForm">
-  <input type="email" placeholder="Email" formControlName="email">
-  <br>
+  <label>Email</label>
+  <div>
+    <input type="email" placeholder="Email" formControlName="email">
+  </div>
+  <label>Password</label>
+  <div>
   <input type="password" placeholder="Password" formControlName="password">
-  <br>
-  <button type="submit" (click)="login()">Log In</button>
+  </div>
+  <button type="submit" class="btn btn-outline-dark"  (click)="login()">Log In</button>
 </form>
-<button (click)="redirectToRegister()">...Or Sign Up</button>
+<button  class="btn btn-dark" (click)="redirectToRegister()">...Or Sign Up</button>
